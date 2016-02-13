@@ -49,6 +49,7 @@ class CIRCSock : public CIRCSocket {
         NoArg = 3
     } EChanModeArgs;
 
+    void PushBuff(const char* data, size_t len, bool bStartAtZero = false) override;
     void ReadLine(const CString& sData) override;
     void Connected() override;
     void Disconnected() override;

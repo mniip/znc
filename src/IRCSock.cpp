@@ -149,6 +149,16 @@ void CIRCSock::Quit(const CString& sQuitMsg) {
     Close(CLT_AFTERWRITE);
 }
 
+void CIRCSock::PushBuff(const char *data, size_t len, bool bStartAtZero) {
+    CString sData = CString(data, len);
+
+    bool bSkip = false;
+    IRCSOCKMODULECALL(OnRawData(sData), &bSkip);
+    if (bSkip) return;
+
+    CZNCSock::PushBuff(sData.c_str(), sData.size(), bStartAtZero);
+}
+
 void CIRCSock::ReadLine(const CString& sData) {
     CString sLine = sData;
 

@@ -599,6 +599,11 @@ class CModule {
     virtual void OnRawMode(const CNick& OpNick, CChan& Channel,
                            const CString& sModes, const CString& sArgs);
 
+    /** Called when some raw data is received from the socket. TLS, if used, has been already decoded at this point.
+     *  @param sData - the received data. May contain zeros.
+     *  @return See CModule::EModRet.
+     */
+    virtual EModRet OnRawData(CString& sData);
     /** Called on any raw IRC line received from the <em>IRC server</em>.
      *  @param sLine The line read from the server.
      *  @note The line does not include message tags. Use OnRawMessage() to access them.
@@ -1380,6 +1385,7 @@ class CModules : public std::vector<CModule*> {
     bool OnMode(const CNick& OpNick, CChan& Channel, char uMode,
                 const CString& sArg, bool bAdded, bool bNoChange);
 
+    bool OnRawData(CString& sData);
     bool OnRaw(CString& sLine);
     bool OnRawMessage(CMessage& Message);
     bool OnNumericMessage(CNumericMessage& Message);

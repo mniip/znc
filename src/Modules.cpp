@@ -660,6 +660,7 @@ void CModule::OnRawMode(const CNick& pOpNick, CChan& Channel,
 void CModule::OnMode(const CNick& pOpNick, CChan& Channel, char uMode,
                      const CString& sArg, bool bAdded, bool bNoChange) {}
 
+CModule::EModRet CModule::OnRawData(CString& sData) { return CONTINUE; }
 CModule::EModRet CModule::OnRaw(CString& sLine) { return CONTINUE; }
 CModule::EModRet CModule::OnRawMessage(CMessage& Message) { return CONTINUE; }
 CModule::EModRet CModule::OnNumericMessage(CNumericMessage& Message) {
@@ -1201,6 +1202,7 @@ bool CModules::OnMode(const CNick& OpNick, CChan& Channel, char uMode,
     MODUNLOADCHK(OnMode(OpNick, Channel, uMode, sArg, bAdded, bNoChange));
     return false;
 }
+bool CModules::OnRawData(CString& sData) { MODHALTCHK(OnRawData(sData)); }
 bool CModules::OnRaw(CString& sLine) { MODHALTCHK(OnRaw(sLine)); }
 bool CModules::OnRawMessage(CMessage& Message) {
     MODHALTCHK(OnRawMessage(Message));
