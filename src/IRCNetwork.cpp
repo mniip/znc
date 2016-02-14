@@ -1259,9 +1259,8 @@ bool CIRCNetwork::Connect() {
 
     CZNC::Get().AddServerThrottle(pServer->GetName());
 
-    bool bSSL = pServer->IsSSL();
 #ifndef HAVE_LIBSSL
-    if (bSSL) {
+    if (pServer->IsSSL()) {
         PutStatus("Cannot connect to [" + pServer->GetString(false) +
                   "], ZNC is not compiled with SSL.");
         CZNC::Get().AddNetworkToQueue(this);
@@ -1289,7 +1288,7 @@ bool CIRCNetwork::Connect() {
 
     CString sSockName = "IRC::" + m_pUser->GetUserName() + "::" + m_sName;
     CZNC::Get().GetManager().Connect(pServer->GetName(), pServer->GetPort(),
-                                     sSockName, 120, bSSL, GetBindHost(),
+                                     sSockName, 120, pServer->IsSSL(), GetBindHost(),
                                      pIRCSock);
 
     return true;
